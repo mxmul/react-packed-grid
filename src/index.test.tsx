@@ -1,7 +1,7 @@
-import { ExampleComponent } from '.'
+import { PackedGrid } from '.'
 
-describe('ExampleComponent', () => {
+describe('PackedGrid', () => {
   it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
+    expect(PackedGrid).toBeTruthy()
   })
 })

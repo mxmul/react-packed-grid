@@ -4,6 +4,10 @@
 
 [![NPM](https://img.shields.io/npm/v/react-packed-grid.svg)](https://www.npmjs.com/package/react-packed-grid) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+## Demo
+
+https://mxmul.github.io/react-packed-grid/
+
 ## Install
 
 ```bash
@@ -13,15 +17,20 @@ npm install --save react-packed-grid
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
+import React from 'react'
 
-import MyComponent from 'react-packed-grid'
-import 'react-packed-grid/dist/index.css'
+import { PackedGrid } from 'react-packed-grid'
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+function Example {
+  return (
+    <PackedGrid>
+      {(updateLayout) => [
+        <div>Box 1</div>,
+        <div>Box 2</div>,
+        <div>Box 3</div>,
+      ]}
+    </PackedGrid>
+  );
 }
 ```
 
