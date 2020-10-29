@@ -1,6 +1,6 @@
 {
   "name": "react-packed-grid",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A React component to create a grid of equally scaled boxes packed efficiently into a container, as seen in video conferencing apps like Zoom.",
   "author": "mxmul",
   "license": "MIT",

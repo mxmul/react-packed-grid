@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 
 import { PackedGrid } from 'react-packed-grid'
 
@@ -20,6 +20,7 @@ function GridItemPlaceholder({ children }: { children: React.ReactNode }) {
 }
 
 const App = () => {
+  const updateLayoutRef = useRef<() => void>()
   const focusRef = useCallback((el) => {
     el.focus()
   }, [])
@@ -38,13 +39,20 @@ const App = () => {
             onChange={(e) => setNumBoxes(Number.parseInt(e.target.value, 10))}
           />
         </label>
+        <button
+          onClick={() => {
+            if (updateLayoutRef.current) {
+              updateLayoutRef.current()
+            }
+          }}
+        >
+          Force Layout Update
+        </button>
       </div>
-      <PackedGrid className='fullscreen'>
-        {() =>
-          Array.from({ length: numBoxes }).map((_, idx) => (
-            <GridItemPlaceholder>Box {idx + 1}</GridItemPlaceholder>
-          ))
-        }
+      <PackedGrid className='fullscreen' updateLayoutRef={updateLayoutRef}>
+        {Array.from({ length: numBoxes }).map((_, idx) => (
+          <GridItemPlaceholder key={idx}>Box {idx + 1}</GridItemPlaceholder>
+        ))}
       </PackedGrid>
     </>
   )

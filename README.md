@@ -24,11 +24,9 @@ import { PackedGrid } from 'react-packed-grid'
 function Example {
   return (
     <PackedGrid>
-      {(updateLayout) => [
-        <div>Box 1</div>,
-        <div>Box 2</div>,
-        <div>Box 3</div>,
-      ]}
+        <div>Box 1</div>
+        <div>Box 2</div>
+        <div>Box 3</div>
     </PackedGrid>
   );
 }

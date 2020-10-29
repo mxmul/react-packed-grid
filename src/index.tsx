@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { largestSquare } from 'rect-scaler'
 
 interface Props {
-  children: (updateLayout: () => void) => React.ReactNode
+  children: React.ReactNode
   className?: string
   boxClassName?: string
+  updateLayoutRef?: React.MutableRefObject<(() => void) | undefined>
 }
 
 type Layout = {
@@ -56,14 +57,28 @@ function usePackedGridLayout(): [
   return [layout, setNumBoxes, updateLayout]
 }
 
-export function PackedGrid({ children, className, boxClassName }: Props) {
+export function PackedGrid({
+  children,
+  className,
+  boxClassName,
+  updateLayoutRef
+}: Props) {
   const [layout, setNumBoxes, updateLayout] = usePackedGridLayout()
 
-  const renderedChildren = children(updateLayout)
+  useEffect(() => {
+    setNumBoxes(React.Children.count(children))
+  }, [children])
 
   useEffect(() => {
-    setNumBoxes(React.Children.count(renderedChildren))
-  }, [renderedChildren])
+    if (updateLayoutRef) {
+      updateLayoutRef.current = () => updateLayout()
+    }
+    return () => {
+      if (updateLayoutRef) {
+        updateLayoutRef.current = undefined
+      }
+    }
+  }, [updateLayout, updateLayoutRef])
 
   return (
     <div
@@ -75,7 +90,7 @@ export function PackedGrid({ children, className, boxClassName }: Props) {
         placeContent: 'center'
       }}
     >
-      {React.Children.map(renderedChildren, (child) => (
+      {React.Children.map(children, (child) => (
         <div
           className={boxClassName}
           style={
