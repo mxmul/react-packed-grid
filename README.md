@@ -1,6 +1,6 @@
 # react-packed-grid
 
-> A React component to create a grid of equally scaled boxes packed efficiently into a container, as seen in video conferencing apps.
+> A React component to create a grid of equally scaled boxes packed efficiently into a container, as seen in video conferencing apps like Zoom.
 
 [![NPM](https://img.shields.io/npm/v/react-packed-grid.svg)](https://www.npmjs.com/package/react-packed-grid) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
