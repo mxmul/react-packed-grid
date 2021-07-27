@@ -25,6 +25,7 @@ const App = () => {
     el.focus()
   }, [])
   const [numBoxes, setNumBoxes] = useState(1)
+  const [aspectRatio, setAspectRatio] = useState(1)
 
   return (
     <>
@@ -39,6 +40,16 @@ const App = () => {
             onChange={(e) => setNumBoxes(Number.parseInt(e.target.value, 10))}
           />
         </label>
+        <label>
+          Aspect Ratio
+          <input
+            ref={focusRef}
+            type='number'
+            step='any'
+            value={aspectRatio}
+            onChange={(e) => setAspectRatio(Number.parseFloat(e.target.value))}
+          />
+        </label>
         <button
           onClick={() => {
             if (updateLayoutRef.current) {
@@ -49,7 +60,11 @@ const App = () => {
           Force Layout Update
         </button>
       </div>
-      <PackedGrid className='fullscreen' updateLayoutRef={updateLayoutRef}>
+      <PackedGrid
+        boxAspectRatio={aspectRatio}
+        className='fullscreen'
+        updateLayoutRef={updateLayoutRef}
+      >
         {Array.from({ length: numBoxes }).map((_, idx) => (
           <GridItemPlaceholder key={idx}>Box {idx + 1}</GridItemPlaceholder>
         ))}
