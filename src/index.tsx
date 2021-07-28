@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { largestSquare } from 'rect-scaler'
+import { largestRect } from 'rect-scaler'
 
 interface Props {
   children: React.ReactNode
   className?: string
   boxClassName?: string
   updateLayoutRef?: React.MutableRefObject<(() => void) | undefined>
+  boxAspectRatio?: number
 }
 
 type Layout = {
@@ -19,12 +20,21 @@ type Layout = {
 function recalculateLayout(
   containerWidth: number,
   containerHeight: number,
-  numSquares: number
+  numRects: number,
+  rectAspectRatio: number = 1
 ) {
-  return largestSquare(containerWidth, containerHeight, numSquares)
+  return largestRect(
+    containerWidth,
+    containerHeight,
+    numRects,
+    rectAspectRatio,
+    1
+  )
 }
 
-function usePackedGridLayout(): [
+function usePackedGridLayout(
+  boxAspectRatio: number = 1
+): [
   Layout | undefined,
   (numBoxes: number) => void,
   (el?: HTMLDivElement | null) => void
@@ -40,10 +50,10 @@ function usePackedGridLayout(): [
       if (numBoxes > 0 && containerRef.current) {
         const width = containerRef.current.getBoundingClientRect().width
         const height = containerRef.current.getBoundingClientRect().height
-        setLayout(recalculateLayout(width, height, numBoxes))
+        setLayout(recalculateLayout(width, height, numBoxes, boxAspectRatio))
       }
     },
-    [numBoxes]
+    [numBoxes, boxAspectRatio]
   )
   useEffect(() => {
     updateLayout()
@@ -61,9 +71,12 @@ export function PackedGrid({
   children,
   className,
   boxClassName,
-  updateLayoutRef
+  updateLayoutRef,
+  boxAspectRatio
 }: Props) {
-  const [layout, setNumBoxes, updateLayout] = usePackedGridLayout()
+  const [layout, setNumBoxes, updateLayout] = usePackedGridLayout(
+    boxAspectRatio
+  )
 
   useEffect(() => {
     setNumBoxes(React.Children.count(children))
