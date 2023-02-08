@@ -74,9 +74,9 @@ export function PackedGrid({
   updateLayoutRef,
   boxAspectRatio
 }: Props) {
-  const [layout, setNumBoxes, updateLayout] = usePackedGridLayout(
-    boxAspectRatio
-  )
+  children = React.Children.toArray(children).filter(Boolean)
+  const [layout, setNumBoxes, updateLayout] =
+    usePackedGridLayout(boxAspectRatio)
 
   useEffect(() => {
     setNumBoxes(React.Children.count(children))
