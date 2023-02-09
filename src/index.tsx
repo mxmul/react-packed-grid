@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { largestRect } from 'rect-scaler'
 
+type FunctionBoxClassNameType = (child: React.ReactNode) => string;
+
+
 interface Props {
   children: React.ReactNode
   className?: string
-  boxClassName?: string
+  boxClassName?: string | FunctionBoxClassNameType
   updateLayoutRef?: React.MutableRefObject<(() => void) | undefined>
   boxAspectRatio?: number
 }
@@ -72,7 +75,7 @@ export function PackedGrid({
   className,
   boxClassName,
   updateLayoutRef,
-  boxAspectRatio
+  boxAspectRatio,
 }: Props) {
   const children = React.Children.toArray(_children).filter(Boolean)
   const [layout, setNumBoxes, updateLayout] = usePackedGridLayout(
@@ -106,7 +109,7 @@ export function PackedGrid({
     >
       {React.Children.map(children, (child) => (
         <div
-          className={boxClassName}
+          className={typeof boxClassName === "function" ? boxClassName(child) : boxClassName}
           style={
             layout
               ? {
